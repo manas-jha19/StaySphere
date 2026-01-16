@@ -1,0 +1,30 @@
+<% layout("/layouts/boilerplate") %>
+    <div class="row mt-3">
+      <div class="col-heading  col-8 offset-3">
+        <h3>Show Linsting</h3>
+    </div>
+    <div class="card-all col-6 offset-3">
+    <div class="card">
+      <img class="show-image card-img-top" src="<%=showall.image.url%>" alt="image"/>
+      <div class="card-body">
+        <p class="card-text"><b>Title:</b><%=showall.title%><br>
+        <b>Description:</b><%=showall.description%><br>
+        <b>Price: </b>&#8377; <%=showall.price.toLocaleString("en-IN") %><br>
+        <b>location:</b><%=showall.location%><br>
+        <b>country:</b><%=showall.country%><br>
+        </p>
+        </div>
+           </div>
+           </div>
+      <div class="btns-edit-delete">
+      <a href="/listings/<%=showall._id%>/edit" class="btn btn-dark col-1 offset-3 editbtn" >Edit</a>
+      <form method="post" action="/listings/<%=showall._id%>?_method=DELETE" >
+        <button class="btn btn-dark offset-5">Delete</button>
+      </form>
+      </div>
+        </div>
+      <br>
+   
+    
+    
+

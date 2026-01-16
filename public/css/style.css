@@ -1,0 +1,178 @@
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container{
+    flex: 1;
+    padding-top: 1rem;
+}
+
+/* nav bar */
+.navbar{
+    height: 5rem;
+    background-color: white;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+
+.fa-compass{
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+/* .nav-link{
+    color: #222222 !important;
+} */
+
+.navbar-nav .nav-link {
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+}
+
+
+/* footer */
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+    
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+
+.f-info-socials{
+    width: 100%;
+    font-size: 1.2rem;
+    user-select: none;
+}
+.f-info-links{
+    width: 100%;
+}
+
+
+.f-info-socials i{
+    margin: 0 0.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.f-info-socials i:hover{
+    transform: scale(1.15);
+}
+
+
+.f-info{
+    background-color: #f2f2f2;
+    height: auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-evenly;
+    text-align: center;
+    padding: 1.5rem 0;
+    gap: 0.5rem;
+    
+
+}
+
+/* card */
+.card{
+    border: none !important;
+    margin: 1rem !important;
+    
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+.card-body p{
+    font-weight: 400 !important;
+}
+
+.showcard{
+    text-decoration: none;
+}
+
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+
+/* new */
+.newbtn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+/* Edit */
+.editbtn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+/* show */
+.show-image{
+     height: 30vh; 
+     border-radius: 20px;
+ } 
+
+.btns-edit-delete{
+    display: flex !important;
+    padding-left: 24px !important;
+    
+} 
+
+.card-all{
+    padding-left: 0  !important;
+    padding-right: 0 !important;
+}
+
+.col-heading{
+    padding-left: 15px !important;
+}
+
+/* logo */
+
+.logo-icon {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+
+}
+
+.logo-text {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  line-height: 1;
+}
+
+.logo-stay {
+  color: #0d6efd;   /* blue */
+}
+
+.logo-sphere {
+  color: #20c997;   /* teal */
+}
