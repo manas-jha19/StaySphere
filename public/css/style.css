@@ -90,7 +90,7 @@ body {
 
 /* card */
 .card{
-    border: none !important;
+   border: none !important;
     margin: 1rem !important;
     
 }
@@ -140,6 +140,7 @@ body {
 .btns-edit-delete{
     display: flex !important;
     padding-left: 24px !important;
+    align-items: center ;
     
 } 
 
@@ -175,4 +176,9 @@ body {
 
 .logo-sphere {
   color: #20c997;   /* teal */
+}
+
+/* reviews */
+.card-review{
+    border: 0.5px solid #222222 !important;
 }
