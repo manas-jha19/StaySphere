@@ -3,13 +3,20 @@ const app = express();
 const mongoose = require('mongoose');
 const listing = require("./models/listing.js");
 const path = require('path');
-const { title } = require('process');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-const WrapAsync = require("./utils/WrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema,reviewSchema} = require("./schema.js");
-const review = require("./models/reviews.js");
+const session = require("express-session");
+const flash = require("connect-flash");
+
+const User = require("./models/user.js");
+const LocalStrategy = require("passport-local");
+
+
+const listingsroute = require("./routes/listings.js");
+const reviewsRoute = require("./routes/reviews.js");
+const userRoute = require("./routes/user.js");
+const passport = require('passport');
 
 
 
@@ -32,131 +39,54 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 
-
-// Validation for Schema
-
-const  validationListing = (req,res,next)=>{
-   let {error} = listingSchema.validate(req.body);
-   if(error){
-    let errMsg = error.details.map((el)=>el.message).join(",");
-    throw new ExpressError(400,errMsg);
-   }else{
-    next();
-   }
+const sessionSection ={
+     secret:"spersecretcode",
+     resave: false,
+     saveUninitialized: true,
+     cookie:{
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge:  7 * 24 * 60 * 60 * 1000,
+        httpOnly: true
+     }
 };
+app.use(session(sessionSection));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+// static authenticate method of model in LocalStrategy
+passport.use(new LocalStrategy(User.authenticate()));
+
+// static serialize and deserialize method for passport session 
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.get("/",(req,res)=>{
     res.send("I am root");
 });
 
-//index route
-app.get("/listings",WrapAsync(async(req,res)=>{
-   const storelistings = await listing.find();
-   res.render("listings/index.ejs",{storelistings});
-}));
 
-//Create new route
-app.get("/listings/new/",(req,res)=>{
-    res.render("listings/new.ejs");
+
+app.use((req,res,next)=>{
+    res.locals.successMsg = req.flash("success");
+    res.locals.deleteMsg = req.flash("error");
+    res.locals.reqUser = req.user;
+    next(); 
 });
 
-app.post("/listings",validationListing,WrapAsync(async(req,res,next)=>{
-    
-
-    let newListing = new listing(req.body.listing);
-    await newListing.save()
-    // console.log(newListing);
-    res.redirect("/listings");
-    
-}));
-
-
-//Show route
-app.get("/listings/:id",WrapAsync(async(req,res)=>{
-    let {id} = req.params;
-    let showall = await listing.findById(id).populate("reviews");
-    console.log(showall);
-    res.render("listings/show.ejs",{showall});
-}));
-
-
-
-//Update & edit routes
-app.get("/listings/:id/edit",WrapAsync(async(req,res)=>{
-    let {id} = req.params;
-     let editlisting = await listing.findById(id);
-    res.render("listings/edit.ejs",{editlisting});
-}));
-
-app.put("/listings/:id",validationListing,WrapAsync(async(req,res)=>{
-        let {id} = req.params;
-        
-     let ulisting = await listing.findByIdAndUpdate(id,{...req.body.listing});
-     
-     res.redirect(`/listings/${id}`);
-}));
-
-//Delete Route
-app.delete("/listings/:id",WrapAsync(async(req,res)=>{
-    let {id} = req.params;
-    let deletelisting = await listing.findByIdAndDelete(id);
-    res.redirect("/listings");
-}));
-
-// validation for review
-const  validationreview = (req,res,next)=>{
-   let {error} = reviewSchema.validate(req.body);
-   if(error){
-    let errMsg = error.details.map((el)=>el.message).join(",");
-    throw new ExpressError(400,errMsg);
-   }else{
-    next();
-   }
-};
-
-//Create review route
-// post request
-
-app.post("/listings/:id/reviews",validationreview,WrapAsync(async(req,res)=>{
-   let listingDoc = await listing.findById(req.params.id);
-    let newReview = new review (req.body.review);
-
-    listingDoc.reviews.push(newReview);
-    await newReview.save();
-    await listingDoc.save();
-
-    console.log("save review");
-    res.redirect(`/listings/${listingDoc._id}`);
-}));
-
-// Delete reviews route
-
-app.delete("/listings/:id/reviews/:reviewId",WrapAsync(async(req,res)=>{
-    let{id,reviewId} = req.params;
-
-    await listing.findByIdAndUpdate(id,{$pull: {reviews : reviewId}});
-    await review.findByIdAndDelete(reviewId);
-
-    res.redirect(`/listings/${id}`);
-
-}));
-
-// app.get("/listingtest",async(req,res)=>{
-    // let samplelisting = new Listing(
-    //     {
-    //         title:"home vila",
-    //         description:"2 bhk flat",
-    //         price:5000,
-    //         location:"katra jammu & kashmir",
-    //         country:"india",
-    //     });
-    //     await samplelisting.save()
-    // console.log("saved ");
-    // res.send(samplelisting);
+// app.get("/demouser",async(req,res)=>{
+//     const demoUser = new User({
+//         email:"demo@gamil.com",
+//         username:"demo-delta",
+//     });
+//     const regusterUser = await User.register(demoUser, "helloWorld");
+//     res.send(regusterUser);
 // });
 
-
-
+app.use("/listings", listingsroute);
+app.use("/listings/:id/reviews", reviewsRoute);
+app.use("/", userRoute);
 
 // Middleware
 
@@ -169,10 +99,6 @@ app.use((err,req,res,next)=>{
     // res.status(statusCode).send(message);
     res.status(statusCode).render("listings/error.ejs",{message});
 });
-
-// app.use((err,req,res,next)=>{
-//     res.send("Something went wrong");
-// });
 
 app.listen(8080,()=>{
     console.log("Port listening:",8080);
