@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/user.js");
 const WrapAsync = require("../utils/WrapAsync.js");
 const passport = require("passport");
-const { storeRedirectUrl } = require("../views/middleware.js");
+const { storeRedirectUrl } = require("../middleware.js");
 
 router.get("/signup",(req,res)=>{
 
