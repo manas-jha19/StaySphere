@@ -4,51 +4,17 @@ const User = require("../models/user.js");
 const WrapAsync = require("../utils/WrapAsync.js");
 const passport = require("passport");
 const { storeRedirectUrl } = require("../middleware.js");
+const userController = require("../controller/user.js");
 
-router.get("/signup",(req,res)=>{
+router.route("/signup")
+.get(userController.renderSignupForm)
+.post(WrapAsync(userController.SignUpUser));
 
-    res.render("user/user.ejs");
-});
+router.route("/login")
+.get(userController.renderLoginForm)
+.post(storeRedirectUrl,passport.authenticate("local",{failureRedirect: "/login",failureFlash:true}),userController.loginUser);
 
-router.post("/signup",WrapAsync(async(req,res,next)=>{
-    try{
-
-         let{email,username,password} = req.body;
-    let newUser = new User({email ,username});
-    let putUser = await User.register(newUser,password);
-    console.log(putUser);
-    req.login(putUser,(err)=>{
-        if(err){
-            return next(err);
-        }
-        req.flash("success","Welcome to StaySphere")
-    res.redirect("/listings");
-    })
-    
-    }
-    catch(e){
-        req.flash("error", e.message);
-        res.redirect("/signup");
-    };
-}));
-
-router.get("/login",(req,res)=>{
-    res.render("user/login.ejs");
-});
-
-router.post("/login",storeRedirectUrl,passport.authenticate("local",{failureRedirect: "/login",failureFlash:true}),(req,res)=>{
-    req.flash("success","Welcome to StaySphere ,You are logged in!");
-    res.redirect(res.locals.redirectUrl || "/listings");
-});
-
-router.get("/logout",(req,res,next)=>{
-    req.logout((err)=>{
-        if(err){
-            next(err);
-        }
-        req.flash("success","You logged out!");
-        res.redirect("/listings");
-    });
-});
+router.route("/logout")
+.get(userController.logoutUser);
 
 module.exports = router;

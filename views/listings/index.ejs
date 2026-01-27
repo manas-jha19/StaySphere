@@ -1,9 +1,59 @@
 <% layout("/layouts/boilerplate") %>
-<body>
-    <h3>All Listings</h3>
-    <!-- <form method="get" action="/listings/new/">
-        <button>Create New Listing</button>
-    </form> -->
+ <div class="filters-wrapper">
+    <button class="scroll-btn left" onclick="scrollCategories(-200)">
+    <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <div class="filters-container" id="filters">
+        <a href="/listings" class="filter text-decoration-none text-dark">
+           <div><i class="fa-solid fa-fire"></i></div>
+           <p>Trending</p>
+         </a>
+
+        <a href="/listings?category=Rooms" class="filter text-decoration-none text-dark">
+            <div><i class="fa-solid fa-bed"></i></div>
+            <p>Rooms</p>
+        </a>
+        <a href="/listings?category=Iconic Cities" class="filter text-decoration-none text-dark">
+            <div><i class="fa-solid fa-mountain-city"></i></div>
+            <p>Iconic Cities</p>
+        </a>
+        <a href="/listings?category=Mountains" class="filter text-decoration-none text-dark">
+            <div><i class="fa-solid fa-mountain"></i></div>
+            <p>Mountains</p>
+        </a>
+        <a href="/listings?category=Castles" class="filter text-decoration-none text-dark">
+            <div><i class="fa-brands fa-fort-awesome"></i></div>
+            <p>Castles</p>
+        </a>
+        <a href="/listings?category=Amazing Pools" class="filter text-decoration-none text-dark">
+            <div><i class="fa-solid fa-person-swimming"></i></div>
+            <p>Amazing Pool</p>
+        </a>
+        <a href="/listings?category=Camping" class="filter text-decoration-none text-dark">
+            <div><i class="fa-solid fa-campground"></i></div>
+            <p>Camping</p>
+        </a>
+        <a href="/listings?category=Farms" class="filter text-decoration-none text-dark">
+            <div><i class="fa-solid fa-cow"></i></div>
+            <p>Farms</p>
+        </a>
+        <a href="/listings?category=Arctice" class="filter text-decoration-none text-dark">
+            <div><i class="fa-solid fa-snowflake"></i></div>
+            <p>Arctice</p>
+        </a>
+        </div>
+          <button class="scroll-btn right" onclick="scrollCategories(200)">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+   
+       <div class="tax-toggle">
+  <span class="me-2">Check price after taxes</span>
+  <div class="form-check form-switch mb-0">
+    <input class="form-check-input" type="checkbox" id="taxToggle">
+  </div>
+</div>
+</div>
+   
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
      <% for(list of storelistings){%>
         <a class="showcard" href="/listings/<%=list._id%>">
@@ -13,14 +63,15 @@
   <div class="card-body">
     <p class="card-text">
         <b><%=list.title %></b><br>
-        &#8377; <%=list.price.toLocaleString("en-IN") %> / Night
+
+       <span class="listingPrice" data-price="<%= list.price %>">&#8377; <%=list.price.toLocaleString("en-IN") %> / Night</span> 
     </p>
   </div>
 </div>
 </a>
 <%}%>
     </div>
-</body>
+ 
 
 
 

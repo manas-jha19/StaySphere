@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV!="production"){
+   require("dotenv").config();
+}
+
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -20,7 +24,10 @@ const passport = require('passport');
 
 
 
-const mongo_url = "mongodb://127.0.0.1:27017/staysphere";
+// const mongo_url = "mongodb://127.0.0.1:27017/staysphere";
+
+const atlasDb = process.env.ATLASDB_URL;
+
 main()
 .then((res)=>{
     console.log("db connected");
@@ -29,7 +36,7 @@ main()
     console.log("something wrong in db");
 })
 async function main() {
-    mongoose.connect(mongo_url);
+    await mongoose.connect(atlasDb);
 };
 
 app.set("view engine","ejs");
@@ -74,15 +81,6 @@ app.use((req,res,next)=>{
     res.locals.reqUser = req.user;
     next(); 
 });
-
-// app.get("/demouser",async(req,res)=>{
-//     const demoUser = new User({
-//         email:"demo@gamil.com",
-//         username:"demo-delta",
-//     });
-//     const regusterUser = await User.register(demoUser, "helloWorld");
-//     res.send(regusterUser);
-// });
 
 app.use("/listings", listingsroute);
 app.use("/listings/:id/reviews", reviewsRoute);
