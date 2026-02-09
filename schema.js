@@ -7,6 +7,7 @@ module.exports.listingSchema = joi.object({
         location: joi.string().required(),
         price: joi.number().required().min(0),
         country: joi.string().required(),
+        propertyDetail: joi.string().allow("", null),
          category: joi.string()
       .required()
       .valid(
@@ -23,6 +24,7 @@ module.exports.listingSchema = joi.object({
             url: joi.string().allow("",null),
         }).optional(),
     }).required(),
+    
 });
 
 module.exports.reviewSchema = joi.object({

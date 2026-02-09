@@ -1,5 +1,7 @@
 if (process.env.NODE_ENV != "production") {
     require("dotenv").config();
+    const dns = require('dns');
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
 }
 
 const express = require('express');
@@ -26,9 +28,6 @@ const userRoute = require("./routes/user.js");
 const passport = require('passport');
 
 
-
-// const mongo_url = "mongodb://127.0.0.1:27017/staysphere";
-
 const atlasDb = process.env.ATLASDB_URL;
 
 main()
@@ -39,7 +38,7 @@ main()
         console.log("something wrong in db");
     })
 async function main() {
-    await mongoose.connect(atlasDb);
+    await mongoose.connect(atlasDb, { family: 4 });
 
 };
 
@@ -53,10 +52,11 @@ app.engine('ejs', ejsMate);
 const store = MongoStore.create({
     mongoUrl: atlasDb,
     dbName: "staysphere",
+    secret:process.env.SECRET,
     collectionName: "sessions",
-
+    
     touchAfter: 24 * 3600,
-
+    mongoOptions: { family: 4 }
 });
 
 store.on("error", (e) => {
@@ -65,7 +65,7 @@ store.on("error", (e) => {
 
 const sessionSection = {
     store: store,
-    secret: "spersecretcode",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
