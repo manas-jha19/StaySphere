@@ -1,46 +1,92 @@
 (() => {
-  'use strict'
+  "use strict";
 
   // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
+  const forms = document.querySelectorAll(".needs-validation");
 
   // Loop over them and prevent submission
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
+  Array.from(forms).forEach((form) => {
+    form.addEventListener(
+      "submit",
+      (event) => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
 
-      form.classList.add('was-validated')
-    }, false)
-  })
-})()
-
+        form.classList.add("was-validated");
+      },
+      false,
+    );
+  });
+})();
 
 // For index page js
 
-
 function scrollCategories(value) {
-  document.getElementById("filters")
+  document
+    .getElementById("filters")
     .scrollBy({ left: value, behavior: "smooth" });
 }
 
-let NewToggle = document.querySelector(".tax-toggle");
+let NewToggle = document.querySelector("#taxToggle");
 
 if (NewToggle) {
   NewToggle.addEventListener("change", () => {
-    let listingPrice = document.querySelectorAll(".listingPrice").forEach(priceEl => {
-      let base = priceEl.dataset.price;
-      if (taxToggle.checked) {
+    document.querySelectorAll(".listingPrice").forEach((priceEl) => {
+      let base = Number(priceEl.dataset.price);
+      let final;
+      if (NewToggle.checked) {
         final = base * 1.1;
-        priceEl.innerHTML =
-          `₹ ${Math.floor(final).toLocaleString("en-IN")} / Night  (Include taxes)`;
+        priceEl.innerHTML = `₹ ${Math.floor(final).toLocaleString("en-IN")} / Night  (Include taxes)`;
       } else {
         final = base;
         priceEl.innerHTML = `₹ ${Math.floor(final).toLocaleString("en-IN")} / Night`;
-      };
+      }
     });
+  });
+}
 
+// collapsebar
+const menuBtn = document.getElementById("menuBtn");
+const menu = document.querySelector(".collapsebar");
+const closeBtn = document.querySelector(".close-menu");
+
+if (menuBtn && menu) {
+  menuBtn.addEventListener("click", () => {
+    menu.classList.add("active");
+  });
+}
+
+if (closeBtn && menu) {
+  closeBtn.addEventListener("click", () => {
+    menu.classList.remove("active");
+  });
+}
+
+if (menu) {
+  menu.addEventListener("click", (e) => {
+    if (e.target === menu) {
+      menu.classList.remove("active");
+    }
+  });
+}
+
+// Image showall and colse
+function openGallery() {
+  document.getElementById("galleryModal").style.display = "block";
+}
+
+function closeGallery() {
+  document.getElementById("galleryModal").style.display = "none";
+}
+
+// Login-signup-closebtn
+const closeLogin = document.querySelector(".close-login");
+const loginOuter = document.querySelector(".login-outer");
+
+if (closeLogin) {
+  closeLogin.addEventListener("click", () => {
+    loginOuter.style.display = "none";
   });
 }

@@ -49,30 +49,34 @@
        <div class="tax-toggle">
   <span class="me-2">Check price after taxes</span>
   <div class="form-check form-switch mb-0">
-    <input class="form-check-input" type="checkbox" id="taxToggle">
+    <input class="form-check-input" type="checkbox" id="taxToggle" />
   </div>
 </div>
 </div>
-   
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-     <% for(list of storelistings){%>
-        <a class="showcard" href="/listings/<%=list._id%>">
-    <div class="card" >
-  <img src="<%=list.image.url%>" class="card-img-top " alt="listing_image" style="height: 18rem;">
+
+
+      <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1 row-cols-1 g-4">
+     <% for(let list of storelistings){ %>
+        <div class="col">
+  <a class="showcard text-decoration-none text-dark" href="/listings/<%= list._id %>">
+    <div class="card listing-card h-100">
+  <img src="<%= list.image[0].url %>" class="card-img-top " alt="listing_image" />
   <div class="card-img-overlay"></div>
-  <div class="card-body">
-    <p class="card-text">
-        <b><%=list.title %></b><br>
+  
+   <div class="card-body">
+    <h6 class="card-title"><b><%= list.title %></b></h6>
 
-       <span class="listingPrice" data-price="<%= list.price %>">&#8377; <%=list.price.toLocaleString("en-IN") %> / Night</span> 
-    </p>
-  </div>
-</div>
-</a>
-<%}%>
+    <div class="price-section">
+        <span class="listingPrice" data-price="<%= list.price %>">
+            ₹ <%= list.price.toLocaleString("en-IN") %> / Night
+        </span>
     </div>
- 
+     </div>
 
-
-
- 
+    </div>
+   </a>
+        
+     </div>
+   <% } %>
+</div>
+  

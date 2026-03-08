@@ -65,3 +65,21 @@ module.exports.isReviewAuthor = async (req,res,next)=>{
     }
     next();
 };
+
+// Only host
+module.exports.isHost = (req, res, next) => {
+    if (!req.user || req.user.role !== "host") {
+        req.flash("error", "Only hosts can perform this action.");
+        return res.redirect("/listings");
+    }
+    next();
+};
+
+// Only normal user
+module.exports.isUser = (req, res, next) => {
+    if (!req.user || req.user.role !== "user") {
+        req.flash("error", "Only users can perform this action.");
+        return res.redirect("/listings");
+    }
+    next();
+};

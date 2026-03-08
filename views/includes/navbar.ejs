@@ -6,23 +6,40 @@
     <span class="logo-stay">Stay</span><span class="logo-sphere">Sphere</span>
   </span>
 </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"  >
-      <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler collapsed" id="menuBtn" type="button">
+      <i class="fa-solid fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link" href="/listings">Explore</a>
       </div>
-
+   
         <div class="search-wrapper ms-auto">
     <form method="get" class="d-flex" role="search" action="/listings">
       <input class="form-control me-2 search-bar" type="search" placeholder="Search destinations" name="q" aria-label="Search"/>
       <button  class="btn btn-outline search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
      </form>
-         </div>  
+         </div>
+        <div class="navbar-nav ms-auto align-items-center">
 
+  <% if(reqUser){ %>
+
+    <!-- Avatar -->
+    <div class="avatar-circle me-2">
+      <%= reqUser.username.charAt(0).toUpperCase() %>
+    </div>
+
+    <!-- Username -->
+    <span class="me-3 fw-semibold">
+      <%= reqUser.username %>
+    </span>
+
+  <% } %>
       <div class="navbar-nav ms-auto">
+        <% if(reqUser && reqUser.role === "host"){ %>
          <a class="nav-link" href="/listings/new">Add new listing</a>
+         <% } %>
+         <div><%= %></div>
         <%if(!reqUser){%>
           <a class="nav-link "  href="/signup"><b>Signup</b></a>
         <a class="nav-link" href="/login"><b>Log in</b></a>

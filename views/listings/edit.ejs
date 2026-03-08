@@ -21,11 +21,14 @@
         </div>
         <div class="editUpImG">
             Original Image <br>
-            <img src="<%=originalListingUrl%>"/>
+            
+            <% editlisting.image.forEach(img => { %>
+                <img src="<%=img.url%>"/>
+           <% }); %>
         </div>
         <div class="mb-3 mt-2">
             <lable for="image_url" class="form-label">Image:</lable>
-        <input type="file" name="listing[image]" value="<%=editlisting.image.url%>" class="form-control" id="image_url" />
+        <input type="file" name="listing[image]" value="<%=editlisting.image.url%>" multiple class="form-control" id="image_url" />
          <div class="valid-feedback">Image submitted</div>
         <div class="invalid-feedback">Please submit image</div>
         </div>
