@@ -90,3 +90,36 @@ if (closeLogin) {
     loginOuter.style.display = "none";
   });
 }
+
+// laoder
+const formsWithLoader = document.querySelectorAll("form");
+
+formsWithLoader.forEach((form) => {
+  form.addEventListener("submit", function () {
+    const btn = form.querySelector(".action-btn");
+    const btn2 = form.querySelector(".action-btn2");
+
+    if (btn) {
+      btn.disabled = true;
+
+      btn.innerHTML = `
+      <span class="spinner-border spinner-border-sm"></span>
+      Processing...
+      `;
+    }
+    if (btn2) {
+      btn2.disabled = true;
+    }
+  });
+});
+
+//page loader
+window.addEventListener("load", function () {
+  const loader = document.getElementById("pageLoader");
+  if (loader) {
+    loader.style.opacity = "0";
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, 400);
+  }
+});

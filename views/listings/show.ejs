@@ -26,7 +26,7 @@
         <img src="<%= img.url %>">
         <% if(reqUser && reqUser._id.equals(showall.owner._id)){ %>
               <form action="/listings/<%= showall._id %>/images/<%= encodeURIComponent(img.filename) %>?_method=DELETE" method="POST">
-                <button class="btn btn-dark">Delete</button>
+                <button class="btn btn-dark action-btn">Delete</button>
               </form>
           <% } %>
 
@@ -96,7 +96,7 @@
             <input type="hidden" name="checkIn" id="checkIn">
             <input type="hidden" name="checkOut" id="checkOut">
 
-            <button class="btn btn-primary w-100 mt-2">Reserve</button>
+            <button class="btn btn-primary w-100 mt-2 action-btn">Reserve</button>
 
           </form>
 
@@ -115,9 +115,9 @@
     </div>
           <% if(reqUser && reqUser._id.equals(showall.owner._id)){%>
       <div class="btns-edit-delete mt-3">
-        <a href="/listings/<%=showall._id%>/edit" class="btn btn-dark editbtn">Edit</a>
+        <a href="/listings/<%=showall._id%>/edit" class="btn btn-dark editbtn action-btn">Edit</a>
         <form method="post" action="/listings/<%=showall._id%>?_method=DELETE">
-          <button class="btn btn-dark">Delete</button>
+          <button class="btn btn-dark action-btn">Delete</button>
         </form>
         
       </div>
@@ -152,7 +152,7 @@
                   class="form-control " required></textarea>
                 <div class="invalid-feedback">Please leave a comment</div>
                 <br>
-                <button class="btn btn-outline-dark">Submit</button>
+                <button class="btn btn-outline-dark action-btn">Submit</button>
               </div>
             </form>
             <%}%>
@@ -175,7 +175,7 @@
                         <%if(review.author && reqUser && review.author._id.equals(reqUser._id)){%>
                           <form class="mb-2" method="post"
                             action="/listings/<%=showall._id%>/reviews/<%=review._id%>?_method=DELETE">
-                            <button class="btn btn-sm btn-dark">Delete</button>
+                            <button class="btn btn-sm btn-dark action-btn">Delete</button>
                           </form>
                           <%}%>
                       </div>
